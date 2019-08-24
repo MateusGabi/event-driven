@@ -1,5 +1,5 @@
 {
-  "name": "event-bus",
+  "name": "event-bus-server",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
