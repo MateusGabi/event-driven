@@ -1,8 +1,7 @@
-const eventBusServer = require("event-bus");
+const EventBusServer = require("event-bus");
 
-eventBusServer({
-  port: 8081,
-  onConnectNode: function(socket) {
-    console.log("New connection on socket id", socket.id);
-  }
+const app = new EventBusServer({
+  port: 8081
 });
+
+app.start();

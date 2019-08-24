@@ -1,3 +1,7 @@
+module.exports.genRandomPort = function() {
+  return Math.ceil(Math.random() * 10000 + 3000);
+};
+
 module.exports.genUID = function() {
   return (
     Math.random()

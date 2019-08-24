@@ -1,62 +1,69 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const { genUID } = require("./app");
+const { genRandomPort, genUID } = require("./app");
 
-module.exports = function(params) {
-  // let  { port = Math.random() * 100000 + 40000, onConnectNode } = params || {};
+class EventBus {
+  constructor(props) {
+    this.port = (props && props.port) || genRandomPort();
+    this.onMicroserviceConnection = props && props.onMicroserviceConnection;
 
-  let port = Math.ceil(Math.random() * 10000 + 3000);
-  if (params && params.port) {
-    port = params.port;
+    this.app = express();
+    this.server = require("http").Server(this.app);
+    this.io = require("socket.io")(this.server);
+
+    this.onConnectStartHandler();
+    this.setUpMiddlewares();
+    this.setUpRoutes();
   }
 
-  const app = express();
-  const server = require("http").Server(app);
-  const io = require("socket.io")(server);
-
-  io.on("connect", function(socket) {
-    if (params.onConnectNode instanceof Function) {
-      params.onConnectNode(socket);
-    }
-  });
-
-  /**
-   * Obrigatório ter esse middleware
-   */
-  app.use(bodyParser.json());
-
-  /**
-   * Obrigatório ter esse middleware
-   */
-  app.use(function(request, response, next) {
-    request.io = io;
-    next();
-  });
-
-  /** Obrigatório ter esse endpoint */
-  app.post("/publish", function(request, response) {
-    const { body } = request;
-
-    const requestId = genUID();
-
-    const payload = {
-      ...body,
-      metadata: {
-        date: new Date(),
-        requestId
+  onConnectStartHandler() {
+    this.io.on("connect", function(socket) {
+      if (this.onMicroserviceConnection instanceof Function) {
+        this.onMicroserviceConnection.call(this, socket);
       }
-    };
-
-    console.log("receive new event", body);
-
-    request.io.emit(body.type, {
-      payload
     });
+  }
 
-    response.json(payload);
-  });
+  setUpMiddlewares() {
+    // body parser
+    this.app.use(bodyParser.json());
 
-  console.log("Event Bus started at port", port);
-  server.listen(port);
-};
+    // added io instance
+    this.app.use((request, response, next) => {
+      request.io = this.io;
+      next();
+    });
+  }
+
+  setUpRoutes() {
+    this.app.post("/publish", function(request, response) {
+      const { body } = request;
+
+      const requestId = genUID();
+
+      const payload = {
+        ...body,
+        metadata: {
+          date: new Date(),
+          requestId
+        }
+      };
+
+      console.log("receive new event", body);
+
+      request.io.emit(body.type, {
+        payload
+      });
+
+      response.json(payload);
+    });
+  }
+
+  start() {
+    console.log("Event Bus Service started at port", this.port);
+    this.server.listen(this.port);
+  }
+}
+
+module.exports = EventBus;
