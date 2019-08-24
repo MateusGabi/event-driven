@@ -3,10 +3,13 @@ const axios = require("axios");
 
 class Microservice {
   constructor(eventBus) {
-    this.eventBus = Object.assign(eventBus, {
-      uri: "http://localhost",
-      port: 8081
-    });
+    this.eventBus = Object.assign(
+      {
+        uri: "http://localhost",
+        port: 8081
+      },
+      eventBus
+    );
     this.socket = io(`${this.eventBus.uri}:${this.eventBus.port}`);
   }
 

@@ -4,5 +4,12 @@
   "main": "index.js",
   "repository": "git@github.com:MateusGabi/event-driven.git",
   "author": "Mateus Gabi Moreira <mateusgabimoreira@gmail.com>",
-  "license": "MIT"
+  "scripts": {
+    "test": "cd test && for i in *; do node $i; done && cd ..",
+    "dev": "nodemon --exec 'yarn test' ."
+  },
+  "license": "MIT",
+  "dependencies": {
+    "testing-library": "https://github.com/MateusGabi/testing-library"
+  }
 }
