@@ -8,7 +8,9 @@
     "dev": "nodemon *.js --exec 'yarn start'"
   },
   "dependencies": {
-    "client": "../../packages/client",
-    "event-bus": "../../packages/event-bus"
+    "event-bus-microservice": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }

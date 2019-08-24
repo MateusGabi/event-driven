@@ -1,4 +1,4 @@
-const Microservice = require("client");
+const Microservice = require("event-bus-microservice");
 
 const app = new Microservice({
   uri: "http://localhost",

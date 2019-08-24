@@ -1,4 +1,4 @@
-const Microservice = require("client");
+const Microservice = require("event-bus-microservice");
 
 const app = new Microservice({
   uri: "http://localhost",
@@ -6,9 +6,9 @@ const app = new Microservice({
 });
 
 app.listenEvent("CREATE_ACCOUNT_SUCCESS", async function(payload) {
-  console.log("csend confirmation email to");
+  console.log("send confirmation email to");
 
-  await new Promise(resolve => setTimeout(() => resolve(null), 3000));
+  await new Promise(resolve => setTimeout(() => resolve(null), 5000));
 
-  console.log("email sent");
+  console.log("email sent.");
 });
