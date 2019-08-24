@@ -1,0 +1,14 @@
+{
+  "name": "create-account-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon *.js --exec 'yarn start'"
+  },
+  "dependencies": {
+    "client": "../../packages/client",
+    "event-bus": "../../packages/event-bus"
+  }
+}
