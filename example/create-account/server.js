@@ -1,7 +1,8 @@
 const Microservice = require("event-bus-microservice");
+const axios = require("axios");
 
 const app = new Microservice({
-  uri: "http://localhost",
+  uri: "http://event-bus",
   port: 8081
 });
 
