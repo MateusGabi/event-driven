@@ -37,7 +37,7 @@ npm manifest:
       "dev": "nodemon *.js --exec 'yarn start'"
     },
     "dependencies": {
-      "event-bus-microservice": "^1.0.0"
+      "event-bus-microservice": "latest"
     },
     "devDependencies": {
       "nodemon": "^1.19.1"
