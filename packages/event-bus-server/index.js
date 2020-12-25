@@ -21,7 +21,6 @@ class EventBus {
 
   onConnectStartHandler() {
     this.io.on("connect", function (socket) {
-      console.log(socket);
       if (this.onMicroserviceConnection instanceof Function) {
         this.onMicroserviceConnection.call(this, socket);
       }
@@ -58,8 +57,6 @@ class EventBus {
           requestId,
         },
       };
-
-      console.log("receive new event", body);
 
       request.io.emit(body.type, {
         payload,
