@@ -16,11 +16,9 @@ class Microservice {
       Math.random().toString(32).substring(2) +
       Math.random().toString(32).substring(2) +
       Math.random().toString(32).substring(2);
-
-    this.doRegistry();
   }
 
-  doRegistry() {
+  registry() {
     this.sendEvent("REGISTRY_SERVICE", {
       name: this.name,
       instanceId: this.instanceId,
@@ -29,7 +27,7 @@ class Microservice {
 
   listenEvent(event, callback) {
     this.socket.on(event, callback);
-    this.socket.on("KEEP_ALIVE_EVENT", function () {
+    this.socket.on("KEEP_ALIVE_EVENT", () => {
       this.sendEvent("KEEP_ALIVE_EVENT_RESPONSE", {
         name: this.name,
         instanceId: this.instanceId,
