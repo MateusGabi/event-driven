@@ -7,7 +7,6 @@ class Microservice {
       {
         uri: "http://localhost",
         port: 8081,
-        name: "#DEFAULT_NAME",
       },
       eventBus
     );
@@ -16,6 +15,8 @@ class Microservice {
       Math.random().toString(32).substring(2) +
       Math.random().toString(32).substring(2) +
       Math.random().toString(32).substring(2);
+
+    this.name = eventBus.serviceName || "DEFAULT_SERVICE_NAME";
   }
 
   registry() {
@@ -36,11 +37,6 @@ class Microservice {
   }
 
   sendEvent(type, payload) {
-    console.log("send event", {
-      type,
-      payload,
-    });
-
     axios.post(`${this.eventBus.uri}:${this.eventBus.port}/publish`, {
       type,
       payload,
